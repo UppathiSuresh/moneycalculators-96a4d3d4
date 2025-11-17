@@ -6,20 +6,21 @@ import { TrendingUp } from "lucide-react";
 
 const SalaryHikeCalculator = () => {
   const [currentSalary, setCurrentSalary] = useState<string>("");
-  const [newSalary, setNewSalary] = useState<string>("");
+  const [hikePercentage, setHikePercentage] = useState<string>("");
 
   const calculateHike = () => {
     const current = parseFloat(currentSalary);
-    const newSal = parseFloat(newSalary);
+    const hike = parseFloat(hikePercentage);
 
-    if (!current || !newSal || current <= 0) return null;
+    if (!current || !hike || current <= 0 || hike < 0) return null;
 
-    const hikeAmount = newSal - current;
-    const hikePercentage = ((hikeAmount / current) * 100).toFixed(2);
+    const incrementalAmount = (current * hike) / 100;
+    const newSalary = current + incrementalAmount;
 
     return {
-      hikeAmount: hikeAmount.toFixed(2),
-      hikePercentage,
+      incrementalAmount: incrementalAmount.toFixed(2),
+      newSalary: newSalary.toFixed(2),
+      hikePercentage: hike.toFixed(2),
     };
   };
 
@@ -50,13 +51,13 @@ const SalaryHikeCalculator = () => {
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="new-salary">New Salary (₹)</Label>
+            <Label htmlFor="hike-percentage">Hike Percentage (%)</Label>
             <Input
-              id="new-salary"
+              id="hike-percentage"
               type="number"
-              placeholder="Enter new salary"
-              value={newSalary}
-              onChange={(e) => setNewSalary(e.target.value)}
+              placeholder="Enter hike percentage"
+              value={hikePercentage}
+              onChange={(e) => setHikePercentage(e.target.value)}
               className="shadow-[var(--shadow-input)]"
             />
           </div>
@@ -67,12 +68,12 @@ const SalaryHikeCalculator = () => {
             <h3 className="text-lg font-semibold text-secondary-foreground mb-4">Results</h3>
             <div className="space-y-3">
               <div className="flex justify-between items-center">
-                <span className="text-muted-foreground">Hike Percentage:</span>
-                <span className="text-2xl font-bold text-primary">{result.hikePercentage}%</span>
+                <span className="text-muted-foreground">Incremental Amount:</span>
+                <span className="text-2xl font-bold text-primary">₹{result.incrementalAmount}</span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-muted-foreground">Hike Amount:</span>
-                <span className="text-xl font-semibold text-accent">₹{result.hikeAmount}</span>
+                <span className="text-muted-foreground">New Salary:</span>
+                <span className="text-xl font-semibold text-accent">₹{result.newSalary}</span>
               </div>
             </div>
           </div>
