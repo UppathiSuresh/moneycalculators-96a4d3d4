@@ -35,7 +35,7 @@ const Index = () => {
 
         {/* Footer */}
         <footer className="mt-16 text-center">
-          <p className="text-sm text-muted-foreground">© 2025 My Company. All rights reserved.</p>
+          <p className="text-sm text-muted-foreground">© 2025 Easy-Money. All rights reserved.</p>
         </footer>
       </div>
     </div>;
