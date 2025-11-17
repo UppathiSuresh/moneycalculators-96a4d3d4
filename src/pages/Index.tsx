@@ -2,10 +2,8 @@ import SalaryHikeCalculator from "@/components/SalaryHikeCalculator";
 import DiscountCalculator from "@/components/DiscountCalculator";
 import InterestCalculator from "@/components/InterestCalculator";
 import { Calculator } from "lucide-react";
-
 const Index = () => {
-  return (
-    <div className="min-h-screen bg-[image:var(--gradient-bg)] py-8 px-4 sm:px-6 lg:px-8">
+  return <div className="min-h-screen bg-[image:var(--gradient-bg)] py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <header className="text-center mb-12">
@@ -37,13 +35,9 @@ const Index = () => {
 
         {/* Footer */}
         <footer className="mt-16 text-center">
-          <p className="text-sm text-muted-foreground">
-            Built with React, TypeScript, and Tailwind CSS
-          </p>
+          <p className="text-sm text-muted-foreground">© 2025 My Company. All rights reserved.</p>
         </footer>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default Index;
