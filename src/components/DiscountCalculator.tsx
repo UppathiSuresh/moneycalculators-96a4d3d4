@@ -43,7 +43,7 @@ const DiscountCalculator = () => {
             <Label htmlFor="original-price">Original Price (₹)</Label>
             <Input
               id="original-price"
-              type="number"
+              type="text"
               placeholder="Enter original price"
               value={originalPrice}
               onChange={(e) => setOriginalPrice(e.target.value)}
@@ -54,7 +54,7 @@ const DiscountCalculator = () => {
             <Label htmlFor="discount-percent">Discount Percentage (%)</Label>
             <Input
               id="discount-percent"
-              type="number"
+              type="text"
               placeholder="Enter discount percentage"
               value={discountPercent}
               onChange={(e) => setDiscountPercent(e.target.value)}

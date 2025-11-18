@@ -44,7 +44,7 @@ const InterestCalculator = () => {
             <Label htmlFor="principal">Principal Amount (₹)</Label>
             <Input
               id="principal"
-              type="number"
+              type="text"
               placeholder="Enter principal amount"
               value={principal}
               onChange={(e) => setPrincipal(e.target.value)}
@@ -55,7 +55,7 @@ const InterestCalculator = () => {
             <Label htmlFor="rate">Interest Rate (% per year)</Label>
             <Input
               id="rate"
-              type="number"
+              type="text"
               placeholder="Enter interest rate"
               value={rate}
               onChange={(e) => setRate(e.target.value)}
@@ -66,7 +66,7 @@ const InterestCalculator = () => {
             <Label htmlFor="time">Time Period (years)</Label>
             <Input
               id="time"
-              type="number"
+              type="text"
               placeholder="Enter time in years"
               value={time}
               onChange={(e) => setTime(e.target.value)}
