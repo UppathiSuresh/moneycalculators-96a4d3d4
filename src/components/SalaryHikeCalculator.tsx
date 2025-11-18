@@ -62,7 +62,7 @@ const SalaryHikeCalculator = () => {
             <Label htmlFor="current-salary">Current Salary (₹)</Label>
             <Input
               id="current-salary"
-              type="number"
+              type="text"
               placeholder="Enter current salary"
               value={currentSalary}
               onChange={(e) => setCurrentSalary(e.target.value)}
@@ -93,7 +93,7 @@ const SalaryHikeCalculator = () => {
               <Label htmlFor="hike-percentage">Hike Percentage (%)</Label>
               <Input
                 id="hike-percentage"
-                type="number"
+                type="text"
                 placeholder="Enter hike percentage"
                 value={hikePercentage}
                 onChange={(e) => setHikePercentage(e.target.value)}
@@ -105,7 +105,7 @@ const SalaryHikeCalculator = () => {
               <Label htmlFor="new-salary">New Salary (₹)</Label>
               <Input
                 id="new-salary"
-                type="number"
+                type="text"
                 placeholder="Enter new salary"
                 value={newSalary}
                 onChange={(e) => setNewSalary(e.target.value)}
