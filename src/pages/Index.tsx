@@ -1,6 +1,9 @@
 import SalaryHikeCalculator from "@/components/SalaryHikeCalculator";
 import DiscountCalculator from "@/components/DiscountCalculator";
 import InterestCalculator from "@/components/InterestCalculator";
+import EMICalculator from "@/components/EMICalculator";
+import CompoundInterestCalculator from "@/components/CompoundInterestCalculator";
+import RetirementCalculator from "@/components/RetirementCalculator";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Calculator } from "lucide-react";
@@ -37,6 +40,15 @@ const Index = () => {
             </div>
             <div className="lg:col-span-1">
               <InterestCalculator />
+            </div>
+            <div className="lg:col-span-1">
+              <EMICalculator />
+            </div>
+            <div className="lg:col-span-1">
+              <CompoundInterestCalculator />
+            </div>
+            <div className="lg:col-span-1">
+              <RetirementCalculator />
             </div>
           </div>
         </div>
