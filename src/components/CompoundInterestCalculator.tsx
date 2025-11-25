@@ -33,7 +33,7 @@ const CompoundInterestCalculator = () => {
   }, [principal, rate, time, frequency]);
 
   return (
-    <Card className="w-full hover:shadow-lg transition-shadow">
+    <Card className="w-full hover:shadow-[0_8px_30px_-4px_hsl(var(--primary)/0.15)] transition-all duration-300 hover:-translate-y-1">
       <CardHeader>
         <div className="flex items-center gap-2">
           <TrendingUp className="h-5 w-5 text-primary" />

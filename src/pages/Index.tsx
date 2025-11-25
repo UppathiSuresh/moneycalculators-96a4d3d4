@@ -32,22 +32,22 @@ const Index = () => {
 
           {/* Calculators Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div className="lg:col-span-1">
+            <div className="lg:col-span-1 animate-fade-in" style={{ animationDelay: '0.1s', animationFillMode: 'backwards' }}>
               <SalaryHikeCalculator />
             </div>
-            <div className="lg:col-span-1">
+            <div className="lg:col-span-1 animate-fade-in" style={{ animationDelay: '0.2s', animationFillMode: 'backwards' }}>
               <DiscountCalculator />
             </div>
-            <div className="lg:col-span-1">
+            <div className="lg:col-span-1 animate-fade-in" style={{ animationDelay: '0.3s', animationFillMode: 'backwards' }}>
               <InterestCalculator />
             </div>
-            <div className="lg:col-span-1">
+            <div className="lg:col-span-1 animate-fade-in" style={{ animationDelay: '0.4s', animationFillMode: 'backwards' }}>
               <EMICalculator />
             </div>
-            <div className="lg:col-span-1">
+            <div className="lg:col-span-1 animate-fade-in" style={{ animationDelay: '0.5s', animationFillMode: 'backwards' }}>
               <CompoundInterestCalculator />
             </div>
-            <div className="lg:col-span-1">
+            <div className="lg:col-span-1 animate-fade-in" style={{ animationDelay: '0.6s', animationFillMode: 'backwards' }}>
               <RetirementCalculator />
             </div>
           </div>
