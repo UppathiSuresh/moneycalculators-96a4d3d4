@@ -27,7 +27,7 @@ const DiscountCalculator = () => {
   const result = calculateDiscount();
 
   return (
-    <Card className="shadow-[var(--shadow-card)] border-border/50 hover:shadow-lg transition-shadow duration-300">
+    <Card className="shadow-[var(--shadow-card)] border-border/50 hover:shadow-[0_8px_30px_-4px_hsl(var(--primary)/0.15)] transition-all duration-300 hover:-translate-y-1">
       <CardHeader>
         <div className="flex items-center gap-3 mb-2">
           <div className="p-2 rounded-lg bg-accent/10">
