@@ -1,9 +1,11 @@
 import { useState } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { TrendingUp } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { TrendingUp, RotateCcw, Download } from "lucide-react";
+import jsPDF from "jspdf";
 
 const SalaryHikeCalculator = () => {
   const [currentSalary, setCurrentSalary] = useState<string>("");
@@ -44,6 +46,39 @@ const SalaryHikeCalculator = () => {
   };
 
   const result = calculateHike();
+
+  const handleReset = () => {
+    setCurrentSalary("");
+    setHikePercentage("");
+    setNewSalary("");
+    setCalculationMode("percentage");
+  };
+
+  const handleDownloadPDF = () => {
+    if (!result) return;
+
+    const doc = new jsPDF();
+    
+    doc.setFontSize(18);
+    doc.text("Salary Hike Calculator", 20, 20);
+    
+    doc.setFontSize(12);
+    doc.text("Input Values:", 20, 40);
+    doc.text(`Current Salary: ₹${currentSalary}`, 20, 50);
+    
+    if (calculationMode === "percentage") {
+      doc.text(`Hike Percentage: ${hikePercentage}%`, 20, 60);
+    } else {
+      doc.text(`New Salary: ₹${newSalary}`, 20, 60);
+    }
+    
+    doc.text("Results:", 20, 80);
+    doc.text(`Hike Percentage: ${result.hikePercentage}%`, 20, 90);
+    doc.text(`Incremental Amount: ₹${result.incrementalAmount}`, 20, 100);
+    doc.text(`New Salary: ₹${result.newSalary}`, 20, 110);
+    
+    doc.save("salary-hike-calculation.pdf");
+  };
 
   return (
     <Card className="shadow-[var(--shadow-card)] border-border/50 hover:shadow-[0_8px_30px_-4px_hsl(var(--primary)/0.15)] transition-all duration-300 hover:-translate-y-1">
@@ -134,6 +169,17 @@ const SalaryHikeCalculator = () => {
             </div>
           </div>
         )}
+        
+        <CardFooter className="flex gap-2 pt-6">
+          <Button variant="outline" onClick={handleReset} className="flex-1">
+            <RotateCcw className="h-4 w-4 mr-2" />
+            Reset
+          </Button>
+          <Button onClick={handleDownloadPDF} disabled={!result} className="flex-1">
+            <Download className="h-4 w-4 mr-2" />
+            Download Result
+          </Button>
+        </CardFooter>
       </CardContent>
     </Card>
   );

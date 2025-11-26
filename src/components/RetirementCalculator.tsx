@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { PiggyBank } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { PiggyBank, RotateCcw, Download } from "lucide-react";
+import jsPDF from "jspdf";
 
 const RetirementCalculator = () => {
   const [currentAge, setCurrentAge] = useState("");
@@ -40,6 +42,39 @@ const RetirementCalculator = () => {
       setYearsToRetirement(null);
     }
   }, [currentAge, retirementAge, currentSavings, monthlySavings, expectedReturn]);
+
+  const handleReset = () => {
+    setCurrentAge("");
+    setRetirementAge("");
+    setCurrentSavings("");
+    setMonthlySavings("");
+    setExpectedReturn("");
+  };
+
+  const handleDownloadPDF = () => {
+    if (retirementCorpus === null) return;
+
+    const doc = new jsPDF();
+    
+    doc.setFontSize(18);
+    doc.text("Retirement Planning Calculator", 20, 20);
+    
+    doc.setFontSize(12);
+    doc.text("Input Values:", 20, 40);
+    doc.text(`Current Age: ${currentAge} years`, 20, 50);
+    doc.text(`Retirement Age: ${retirementAge} years`, 20, 60);
+    doc.text(`Current Savings: ₹${currentSavings}`, 20, 70);
+    doc.text(`Monthly Savings: ₹${monthlySavings}`, 20, 80);
+    doc.text(`Expected Annual Return: ${expectedReturn}%`, 20, 90);
+    
+    doc.text("Results:", 20, 110);
+    doc.text(`Retirement Corpus: ₹${retirementCorpus.toFixed(2)}`, 20, 120);
+    doc.text(`Years to Retirement: ${yearsToRetirement} years`, 20, 130);
+    const totalInvested = parseFloat(currentSavings) + parseFloat(monthlySavings) * yearsToRetirement! * 12;
+    doc.text(`Total Invested: ₹${totalInvested.toFixed(2)}`, 20, 140);
+    
+    doc.save("retirement-planning.pdf");
+  };
 
   return (
     <Card className="w-full hover:shadow-[0_8px_30px_-4px_hsl(var(--primary)/0.15)] transition-all duration-300 hover:-translate-y-1">
@@ -126,6 +161,17 @@ const RetirementCalculator = () => {
             </div>
           </div>
         )}
+        
+        <CardFooter className="flex gap-2 pt-6">
+          <Button variant="outline" onClick={handleReset} className="flex-1">
+            <RotateCcw className="h-4 w-4 mr-2" />
+            Reset
+          </Button>
+          <Button onClick={handleDownloadPDF} disabled={retirementCorpus === null} className="flex-1">
+            <Download className="h-4 w-4 mr-2" />
+            Download Result
+          </Button>
+        </CardFooter>
       </CardContent>
     </Card>
   );

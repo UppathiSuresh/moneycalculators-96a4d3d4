@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Calculator } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Calculator, RotateCcw, Download } from "lucide-react";
+import jsPDF from "jspdf";
 
 const EMICalculator = () => {
   const [principal, setPrincipal] = useState("");
@@ -39,6 +41,34 @@ const EMICalculator = () => {
       setTotalInterest(null);
     }
   }, [principal, rate, tenure]);
+
+  const handleReset = () => {
+    setPrincipal("");
+    setRate("");
+    setTenure("");
+  };
+
+  const handleDownloadPDF = () => {
+    if (emi === null) return;
+
+    const doc = new jsPDF();
+    
+    doc.setFontSize(18);
+    doc.text("EMI Calculator", 20, 20);
+    
+    doc.setFontSize(12);
+    doc.text("Input Values:", 20, 40);
+    doc.text(`Loan Amount: ₹${principal}`, 20, 50);
+    doc.text(`Interest Rate: ${rate}% per annum`, 20, 60);
+    doc.text(`Loan Tenure: ${tenure} years`, 20, 70);
+    
+    doc.text("Results:", 20, 90);
+    doc.text(`Monthly EMI: ₹${emi.toFixed(2)}`, 20, 100);
+    doc.text(`Total Amount: ₹${totalAmount?.toFixed(2)}`, 20, 110);
+    doc.text(`Total Interest: ₹${totalInterest?.toFixed(2)}`, 20, 120);
+    
+    doc.save("emi-calculation.pdf");
+  };
 
   return (
     <Card className="w-full hover:shadow-[0_8px_30px_-4px_hsl(var(--primary)/0.15)] transition-all duration-300 hover:-translate-y-1">
@@ -99,6 +129,17 @@ const EMICalculator = () => {
             </div>
           </div>
         )}
+        
+        <CardFooter className="flex gap-2 pt-6">
+          <Button variant="outline" onClick={handleReset} className="flex-1">
+            <RotateCcw className="h-4 w-4 mr-2" />
+            Reset
+          </Button>
+          <Button onClick={handleDownloadPDF} disabled={emi === null} className="flex-1">
+            <Download className="h-4 w-4 mr-2" />
+            Download Result
+          </Button>
+        </CardFooter>
       </CardContent>
     </Card>
   );
