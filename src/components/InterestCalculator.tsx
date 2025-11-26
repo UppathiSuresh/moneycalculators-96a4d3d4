@@ -1,8 +1,10 @@
 import { useState } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Percent } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Percent, RotateCcw, Download } from "lucide-react";
+import jsPDF from "jspdf";
 
 const InterestCalculator = () => {
   const [principal, setPrincipal] = useState<string>("");
@@ -26,6 +28,33 @@ const InterestCalculator = () => {
   };
 
   const result = calculateInterest();
+
+  const handleReset = () => {
+    setPrincipal("");
+    setRate("");
+    setTime("");
+  };
+
+  const handleDownloadPDF = () => {
+    if (!result) return;
+
+    const doc = new jsPDF();
+    
+    doc.setFontSize(18);
+    doc.text("Interest Calculator", 20, 20);
+    
+    doc.setFontSize(12);
+    doc.text("Input Values:", 20, 40);
+    doc.text(`Principal Amount: ₹${principal}`, 20, 50);
+    doc.text(`Interest Rate: ${rate}% per year`, 20, 60);
+    doc.text(`Time Period: ${time} years`, 20, 70);
+    
+    doc.text("Results:", 20, 90);
+    doc.text(`Interest Earned: ₹${result.interest}`, 20, 100);
+    doc.text(`Total Amount: ₹${result.totalAmount}`, 20, 110);
+    
+    doc.save("interest-calculation.pdf");
+  };
 
   return (
     <Card className="shadow-[var(--shadow-card)] border-border/50 hover:shadow-[0_8px_30px_-4px_hsl(var(--primary)/0.15)] transition-all duration-300 hover:-translate-y-1">
@@ -90,6 +119,17 @@ const InterestCalculator = () => {
             </div>
           </div>
         )}
+        
+        <CardFooter className="flex gap-2 pt-6">
+          <Button variant="outline" onClick={handleReset} className="flex-1">
+            <RotateCcw className="h-4 w-4 mr-2" />
+            Reset
+          </Button>
+          <Button onClick={handleDownloadPDF} disabled={!result} className="flex-1">
+            <Download className="h-4 w-4 mr-2" />
+            Download Result
+          </Button>
+        </CardFooter>
       </CardContent>
     </Card>
   );

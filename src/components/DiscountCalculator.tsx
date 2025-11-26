@@ -1,8 +1,10 @@
 import { useState } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Tag } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Tag, RotateCcw, Download } from "lucide-react";
+import jsPDF from "jspdf";
 
 const DiscountCalculator = () => {
   const [originalPrice, setOriginalPrice] = useState<string>("");
@@ -25,6 +27,31 @@ const DiscountCalculator = () => {
   };
 
   const result = calculateDiscount();
+
+  const handleReset = () => {
+    setOriginalPrice("");
+    setDiscountPercent("");
+  };
+
+  const handleDownloadPDF = () => {
+    if (!result) return;
+
+    const doc = new jsPDF();
+    
+    doc.setFontSize(18);
+    doc.text("Discount Calculator", 20, 20);
+    
+    doc.setFontSize(12);
+    doc.text("Input Values:", 20, 40);
+    doc.text(`Original Price: ₹${originalPrice}`, 20, 50);
+    doc.text(`Discount Percentage: ${discountPercent}%`, 20, 60);
+    
+    doc.text("Results:", 20, 80);
+    doc.text(`You Save: ₹${result.savings}`, 20, 90);
+    doc.text(`Final Price: ₹${result.finalPrice}`, 20, 100);
+    
+    doc.save("discount-calculation.pdf");
+  };
 
   return (
     <Card className="shadow-[var(--shadow-card)] border-border/50 hover:shadow-[0_8px_30px_-4px_hsl(var(--primary)/0.15)] transition-all duration-300 hover:-translate-y-1">
@@ -80,6 +107,17 @@ const DiscountCalculator = () => {
             </div>
           </div>
         )}
+        
+        <CardFooter className="flex gap-2 pt-6">
+          <Button variant="outline" onClick={handleReset} className="flex-1">
+            <RotateCcw className="h-4 w-4 mr-2" />
+            Reset
+          </Button>
+          <Button onClick={handleDownloadPDF} disabled={!result} className="flex-1">
+            <Download className="h-4 w-4 mr-2" />
+            Download Result
+          </Button>
+        </CardFooter>
       </CardContent>
     </Card>
   );

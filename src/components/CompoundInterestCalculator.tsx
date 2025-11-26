@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { TrendingUp } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { TrendingUp, RotateCcw, Download } from "lucide-react";
+import jsPDF from "jspdf";
 
 const CompoundInterestCalculator = () => {
   const [principal, setPrincipal] = useState("");
@@ -31,6 +33,47 @@ const CompoundInterestCalculator = () => {
       setInterestEarned(null);
     }
   }, [principal, rate, time, frequency]);
+
+  const handleReset = () => {
+    setPrincipal("");
+    setRate("");
+    setTime("");
+    setFrequency("12");
+  };
+
+  const getFrequencyLabel = (value: string) => {
+    const labels: { [key: string]: string } = {
+      "1": "Annually",
+      "2": "Semi-Annually",
+      "4": "Quarterly",
+      "12": "Monthly",
+      "365": "Daily"
+    };
+    return labels[value] || value;
+  };
+
+  const handleDownloadPDF = () => {
+    if (futureValue === null) return;
+
+    const doc = new jsPDF();
+    
+    doc.setFontSize(18);
+    doc.text("Compound Interest Calculator", 20, 20);
+    
+    doc.setFontSize(12);
+    doc.text("Input Values:", 20, 40);
+    doc.text(`Principal Amount: ₹${principal}`, 20, 50);
+    doc.text(`Annual Interest Rate: ${rate}%`, 20, 60);
+    doc.text(`Time Period: ${time} years`, 20, 70);
+    doc.text(`Compounding Frequency: ${getFrequencyLabel(frequency)}`, 20, 80);
+    
+    doc.text("Results:", 20, 100);
+    doc.text(`Future Value: ₹${futureValue.toFixed(2)}`, 20, 110);
+    doc.text(`Interest Earned: ₹${interestEarned?.toFixed(2)}`, 20, 120);
+    doc.text(`Total Return: ${((interestEarned! / parseFloat(principal)) * 100).toFixed(2)}%`, 20, 130);
+    
+    doc.save("compound-interest-calculation.pdf");
+  };
 
   return (
     <Card className="w-full hover:shadow-[0_8px_30px_-4px_hsl(var(--primary)/0.15)] transition-all duration-300 hover:-translate-y-1">
@@ -109,6 +152,17 @@ const CompoundInterestCalculator = () => {
             </div>
           </div>
         )}
+        
+        <CardFooter className="flex gap-2 pt-6">
+          <Button variant="outline" onClick={handleReset} className="flex-1">
+            <RotateCcw className="h-4 w-4 mr-2" />
+            Reset
+          </Button>
+          <Button onClick={handleDownloadPDF} disabled={futureValue === null} className="flex-1">
+            <Download className="h-4 w-4 mr-2" />
+            Download Result
+          </Button>
+        </CardFooter>
       </CardContent>
     </Card>
   );
