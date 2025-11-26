@@ -3,7 +3,9 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Calculator, RotateCcw, Download } from "lucide-react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { Calculator, RotateCcw, Download, Share2 } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 import jsPDF from "jspdf";
 
 const EMICalculator = () => {
@@ -13,6 +15,7 @@ const EMICalculator = () => {
   const [emi, setEmi] = useState<number | null>(null);
   const [totalAmount, setTotalAmount] = useState<number | null>(null);
   const [totalInterest, setTotalInterest] = useState<number | null>(null);
+  const { toast } = useToast();
 
   useEffect(() => {
     const p = parseFloat(principal);
@@ -68,6 +71,35 @@ const EMICalculator = () => {
     doc.text(`Total Interest: ₹${totalInterest?.toFixed(2)}`, 20, 120);
     
     doc.save("emi-calculation.pdf");
+  };
+
+  const getShareText = () => {
+    if (emi === null) return "";
+    return `💰 EMI Calculation\n\nLoan Amount: ₹${principal}\nInterest Rate: ${rate}% p.a.\nTenure: ${tenure} years\n\nMonthly EMI: ₹${emi.toFixed(2)}\nTotal Amount: ₹${totalAmount?.toFixed(2)}\nTotal Interest: ₹${totalInterest?.toFixed(2)}\n\nCalculated with Financial Calculators`;
+  };
+
+  const handleShare = (platform: 'whatsapp' | 'twitter' | 'email') => {
+    const text = getShareText();
+    const encodedText = encodeURIComponent(text);
+    
+    let url = '';
+    switch (platform) {
+      case 'whatsapp':
+        url = `https://wa.me/?text=${encodedText}`;
+        break;
+      case 'twitter':
+        url = `https://twitter.com/intent/tweet?text=${encodedText}`;
+        break;
+      case 'email':
+        url = `mailto:?subject=${encodeURIComponent('EMI Calculation')}&body=${encodedText}`;
+        break;
+    }
+    
+    window.open(url, '_blank');
+    toast({
+      title: "Sharing",
+      description: `Opening ${platform} to share your results`,
+    });
   };
 
   return (
@@ -137,8 +169,27 @@ const EMICalculator = () => {
           </Button>
           <Button onClick={handleDownloadPDF} disabled={emi === null} className="flex-1">
             <Download className="h-4 w-4 mr-2" />
-            Download Result
+            Download
           </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button disabled={emi === null} className="flex-1">
+                <Share2 className="h-4 w-4 mr-2" />
+                Share
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={() => handleShare('whatsapp')}>
+                Share on WhatsApp
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleShare('twitter')}>
+                Share on Twitter
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleShare('email')}>
+                Share via Email
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </CardFooter>
       </CardContent>
     </Card>

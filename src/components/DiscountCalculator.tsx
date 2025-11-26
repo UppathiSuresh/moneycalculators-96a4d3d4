@@ -3,12 +3,15 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Tag, RotateCcw, Download } from "lucide-react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { Tag, RotateCcw, Download, Share2 } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 import jsPDF from "jspdf";
 
 const DiscountCalculator = () => {
   const [originalPrice, setOriginalPrice] = useState<string>("");
   const [discountPercent, setDiscountPercent] = useState<string>("");
+  const { toast } = useToast();
 
   const calculateDiscount = () => {
     const price = parseFloat(originalPrice);
@@ -51,6 +54,35 @@ const DiscountCalculator = () => {
     doc.text(`Final Price: ₹${result.finalPrice}`, 20, 100);
     
     doc.save("discount-calculation.pdf");
+  };
+
+  const getShareText = () => {
+    if (!result) return "";
+    return `🏷️ Discount Calculation\n\nOriginal Price: ₹${originalPrice}\nDiscount: ${discountPercent}%\nYou Save: ₹${result.savings}\nFinal Price: ₹${result.finalPrice}\n\nCalculated with Financial Calculators`;
+  };
+
+  const handleShare = (platform: 'whatsapp' | 'twitter' | 'email') => {
+    const text = getShareText();
+    const encodedText = encodeURIComponent(text);
+    
+    let url = '';
+    switch (platform) {
+      case 'whatsapp':
+        url = `https://wa.me/?text=${encodedText}`;
+        break;
+      case 'twitter':
+        url = `https://twitter.com/intent/tweet?text=${encodedText}`;
+        break;
+      case 'email':
+        url = `mailto:?subject=${encodeURIComponent('Discount Calculation')}&body=${encodedText}`;
+        break;
+    }
+    
+    window.open(url, '_blank');
+    toast({
+      title: "Sharing",
+      description: `Opening ${platform} to share your results`,
+    });
   };
 
   return (
@@ -115,8 +147,27 @@ const DiscountCalculator = () => {
           </Button>
           <Button onClick={handleDownloadPDF} disabled={!result} className="flex-1">
             <Download className="h-4 w-4 mr-2" />
-            Download Result
+            Download
           </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button disabled={!result} className="flex-1">
+                <Share2 className="h-4 w-4 mr-2" />
+                Share
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={() => handleShare('whatsapp')}>
+                Share on WhatsApp
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleShare('twitter')}>
+                Share on Twitter
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleShare('email')}>
+                Share via Email
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </CardFooter>
       </CardContent>
     </Card>

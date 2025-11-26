@@ -4,7 +4,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { TrendingUp, RotateCcw, Download } from "lucide-react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { TrendingUp, RotateCcw, Download, Share2 } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 import jsPDF from "jspdf";
 
 const CompoundInterestCalculator = () => {
@@ -14,6 +16,7 @@ const CompoundInterestCalculator = () => {
   const [frequency, setFrequency] = useState("12"); // Monthly by default
   const [futureValue, setFutureValue] = useState<number | null>(null);
   const [interestEarned, setInterestEarned] = useState<number | null>(null);
+  const { toast } = useToast();
 
   useEffect(() => {
     const p = parseFloat(principal);
@@ -73,6 +76,36 @@ const CompoundInterestCalculator = () => {
     doc.text(`Total Return: ${((interestEarned! / parseFloat(principal)) * 100).toFixed(2)}%`, 20, 130);
     
     doc.save("compound-interest-calculation.pdf");
+  };
+
+  const getShareText = () => {
+    if (futureValue === null) return "";
+    const returnPercent = ((interestEarned! / parseFloat(principal)) * 100).toFixed(2);
+    return `📈 Compound Interest Calculation\n\nPrincipal: ₹${principal}\nRate: ${rate}% p.a.\nTime: ${time} years\nFrequency: ${getFrequencyLabel(frequency)}\n\nFuture Value: ₹${futureValue.toFixed(2)}\nInterest Earned: ₹${interestEarned?.toFixed(2)}\nTotal Return: ${returnPercent}%\n\nCalculated with Financial Calculators`;
+  };
+
+  const handleShare = (platform: 'whatsapp' | 'twitter' | 'email') => {
+    const text = getShareText();
+    const encodedText = encodeURIComponent(text);
+    
+    let url = '';
+    switch (platform) {
+      case 'whatsapp':
+        url = `https://wa.me/?text=${encodedText}`;
+        break;
+      case 'twitter':
+        url = `https://twitter.com/intent/tweet?text=${encodedText}`;
+        break;
+      case 'email':
+        url = `mailto:?subject=${encodeURIComponent('Compound Interest Calculation')}&body=${encodedText}`;
+        break;
+    }
+    
+    window.open(url, '_blank');
+    toast({
+      title: "Sharing",
+      description: `Opening ${platform} to share your results`,
+    });
   };
 
   return (
@@ -160,8 +193,27 @@ const CompoundInterestCalculator = () => {
           </Button>
           <Button onClick={handleDownloadPDF} disabled={futureValue === null} className="flex-1">
             <Download className="h-4 w-4 mr-2" />
-            Download Result
+            Download
           </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button disabled={futureValue === null} className="flex-1">
+                <Share2 className="h-4 w-4 mr-2" />
+                Share
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={() => handleShare('whatsapp')}>
+                Share on WhatsApp
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleShare('twitter')}>
+                Share on Twitter
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleShare('email')}>
+                Share via Email
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </CardFooter>
       </CardContent>
     </Card>
