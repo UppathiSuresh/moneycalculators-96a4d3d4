@@ -3,13 +3,16 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Percent, RotateCcw, Download } from "lucide-react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { Percent, RotateCcw, Download, Share2 } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 import jsPDF from "jspdf";
 
 const InterestCalculator = () => {
   const [principal, setPrincipal] = useState<string>("");
   const [rate, setRate] = useState<string>("");
   const [time, setTime] = useState<string>("");
+  const { toast } = useToast();
 
   const calculateInterest = () => {
     const p = parseFloat(principal);
@@ -54,6 +57,35 @@ const InterestCalculator = () => {
     doc.text(`Total Amount: ₹${result.totalAmount}`, 20, 110);
     
     doc.save("interest-calculation.pdf");
+  };
+
+  const getShareText = () => {
+    if (!result) return "";
+    return `📊 Simple Interest Calculation\n\nPrincipal: ₹${principal}\nRate: ${rate}% per year\nTime: ${time} years\n\nInterest Earned: ₹${result.interest}\nTotal Amount: ₹${result.totalAmount}\n\nCalculated with Financial Calculators`;
+  };
+
+  const handleShare = (platform: 'whatsapp' | 'twitter' | 'email') => {
+    const text = getShareText();
+    const encodedText = encodeURIComponent(text);
+    
+    let url = '';
+    switch (platform) {
+      case 'whatsapp':
+        url = `https://wa.me/?text=${encodedText}`;
+        break;
+      case 'twitter':
+        url = `https://twitter.com/intent/tweet?text=${encodedText}`;
+        break;
+      case 'email':
+        url = `mailto:?subject=${encodeURIComponent('Interest Calculation')}&body=${encodedText}`;
+        break;
+    }
+    
+    window.open(url, '_blank');
+    toast({
+      title: "Sharing",
+      description: `Opening ${platform} to share your results`,
+    });
   };
 
   return (
@@ -127,8 +159,27 @@ const InterestCalculator = () => {
           </Button>
           <Button onClick={handleDownloadPDF} disabled={!result} className="flex-1">
             <Download className="h-4 w-4 mr-2" />
-            Download Result
+            Download
           </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button disabled={!result} className="flex-1">
+                <Share2 className="h-4 w-4 mr-2" />
+                Share
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={() => handleShare('whatsapp')}>
+                Share on WhatsApp
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleShare('twitter')}>
+                Share on Twitter
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleShare('email')}>
+                Share via Email
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </CardFooter>
       </CardContent>
     </Card>
