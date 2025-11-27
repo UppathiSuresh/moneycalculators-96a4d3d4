@@ -140,18 +140,18 @@ const DiscountCalculator = () => {
           </div>
         )}
         
-        <CardFooter className="flex gap-2 pt-6">
-          <Button variant="outline" onClick={handleReset} className="flex-1">
+        <CardFooter className="flex flex-wrap gap-2 pt-6">
+          <Button variant="outline" onClick={handleReset} className="flex-1 min-w-[120px]">
             <RotateCcw className="h-4 w-4 mr-2" />
             Reset
           </Button>
-          <Button onClick={handleDownloadPDF} disabled={!result} className="flex-1">
+          <Button onClick={handleDownloadPDF} disabled={!result} className="flex-1 min-w-[120px]">
             <Download className="h-4 w-4 mr-2" />
             Download
           </Button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button disabled={!result} className="flex-1">
+              <Button disabled={!result} className="flex-1 min-w-[120px]">
                 <Share2 className="h-4 w-4 mr-2" />
                 Share
               </Button>
