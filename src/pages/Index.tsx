@@ -13,10 +13,10 @@ const Index = () => {
     <div className="min-h-screen bg-[image:var(--gradient-bg)] flex flex-col">
       <Navigation />
       
-      <main className="flex-1 py-8 px-4 sm:px-6 lg:px-8">
+      <main className="flex-1 py-6 md:py-8 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
-          <header className="text-center mb-12">
+          <header className="text-center mb-8 md:mb-12">
             <div className="flex items-center justify-center gap-3 mb-4">
               <div className="p-3 bg-primary rounded-xl shadow-lg">
                 <Calculator className="h-8 w-8 text-primary-foreground" />
@@ -31,7 +31,7 @@ const Index = () => {
           </header>
 
           {/* Calculators Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 md:gap-6">
             <div className="lg:col-span-1 animate-fade-in" style={{ animationDelay: '0.1s', animationFillMode: 'backwards' }}>
               <SalaryHikeCalculator />
             </div>
