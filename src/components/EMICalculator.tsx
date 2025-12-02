@@ -161,37 +161,36 @@ const EMICalculator = () => {
             </div>
           </div>
         )}
-        
-        <CardFooter className="flex gap-2 pt-6">
-          <Button variant="outline" onClick={handleReset} className="flex-1">
-            <RotateCcw className="h-4 w-4 mr-2" />
-            Reset
-          </Button>
-          <Button onClick={handleDownloadPDF} disabled={emi === null} className="flex-1">
-            <Download className="h-4 w-4 mr-2" />
-            Download
-          </Button>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button disabled={emi === null} className="flex-1">
-                <Share2 className="h-4 w-4 mr-2" />
-                Share
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={() => handleShare('whatsapp')}>
-                Share on WhatsApp
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleShare('twitter')}>
-                Share on Twitter
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleShare('email')}>
-                Share via Email
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </CardFooter>
       </CardContent>
+      <CardFooter className="flex flex-wrap gap-2 px-6 pb-6">
+        <Button variant="outline" onClick={handleReset} className="flex-1 min-w-[120px]">
+          <RotateCcw className="h-4 w-4 mr-2" />
+          Reset
+        </Button>
+        <Button onClick={handleDownloadPDF} disabled={emi === null} className="flex-1 min-w-[120px]">
+          <Download className="h-4 w-4 mr-2" />
+          Download
+        </Button>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button disabled={emi === null} className="flex-1 min-w-[120px]">
+              <Share2 className="h-4 w-4 mr-2" />
+              Share
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem onClick={() => handleShare('whatsapp')}>
+              Share on WhatsApp
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => handleShare('twitter')}>
+              Share on Twitter
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => handleShare('email')}>
+              Share via Email
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </CardFooter>
     </Card>
   );
 };
