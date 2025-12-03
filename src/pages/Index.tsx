@@ -4,6 +4,11 @@ import InterestCalculator from "@/components/InterestCalculator";
 import EMICalculator from "@/components/EMICalculator";
 import CompoundInterestCalculator from "@/components/CompoundInterestCalculator";
 import RetirementCalculator from "@/components/RetirementCalculator";
+import SIPCalculator from "@/components/SIPCalculator";
+import FDCalculator from "@/components/FDCalculator";
+import RDCalculator from "@/components/RDCalculator";
+import GSTCalculator from "@/components/GSTCalculator";
+import IncomeTaxCalculator from "@/components/IncomeTaxCalculator";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Calculator } from "lucide-react";
@@ -49,6 +54,21 @@ const Index = () => {
             </div>
             <div className="lg:col-span-1 animate-fade-in" style={{ animationDelay: '0.6s', animationFillMode: 'backwards' }}>
               <RetirementCalculator />
+            </div>
+            <div className="lg:col-span-1 animate-fade-in" style={{ animationDelay: '0.7s', animationFillMode: 'backwards' }}>
+              <SIPCalculator />
+            </div>
+            <div className="lg:col-span-1 animate-fade-in" style={{ animationDelay: '0.8s', animationFillMode: 'backwards' }}>
+              <FDCalculator />
+            </div>
+            <div className="lg:col-span-1 animate-fade-in" style={{ animationDelay: '0.9s', animationFillMode: 'backwards' }}>
+              <RDCalculator />
+            </div>
+            <div className="lg:col-span-1 animate-fade-in" style={{ animationDelay: '1.0s', animationFillMode: 'backwards' }}>
+              <GSTCalculator />
+            </div>
+            <div className="lg:col-span-1 animate-fade-in" style={{ animationDelay: '1.1s', animationFillMode: 'backwards' }}>
+              <IncomeTaxCalculator />
             </div>
           </div>
         </div>
