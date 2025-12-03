@@ -7,6 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Scale, RotateCcw, Download, Share2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { filterNumericInput } from "@/lib/inputValidation";
 import jsPDF from "jspdf";
 
 const IncomeTaxCalculator = () => {
@@ -134,7 +135,7 @@ const IncomeTaxCalculator = () => {
       <CardContent className="space-y-4">
         <div className="space-y-2">
           <Label htmlFor="tax-income">Gross Annual Income (₹)</Label>
-          <Input id="tax-income" type="text" placeholder="Enter annual income" value={income} onChange={(e) => setIncome(e.target.value)} />
+          <Input id="tax-income" type="text" placeholder="Enter annual income" value={income} onChange={(e) => setIncome(filterNumericInput(e.target.value))} />
         </div>
         <div className="space-y-2">
           <Label>Age Group</Label>
@@ -149,7 +150,7 @@ const IncomeTaxCalculator = () => {
         </div>
         <div className="space-y-2">
           <Label htmlFor="tax-deductions">Deductions - Old Regime (₹)</Label>
-          <Input id="tax-deductions" type="text" placeholder="80C, 80D, HRA, etc." value={deductions} onChange={(e) => setDeductions(e.target.value)} />
+          <Input id="tax-deductions" type="text" placeholder="80C, 80D, HRA, etc." value={deductions} onChange={(e) => setDeductions(filterNumericInput(e.target.value))} />
           <p className="text-xs text-muted-foreground">Include 80C, 80D, HRA, LTA, etc.</p>
         </div>
         {oldRegimeTax !== null && (

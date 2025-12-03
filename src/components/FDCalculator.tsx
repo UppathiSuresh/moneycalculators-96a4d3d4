@@ -7,6 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Landmark, RotateCcw, Download, Share2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { filterNumericInput } from "@/lib/inputValidation";
 import jsPDF from "jspdf";
 
 const FDCalculator = () => {
@@ -88,15 +89,15 @@ const FDCalculator = () => {
       <CardContent className="space-y-4">
         <div className="space-y-2">
           <Label htmlFor="fd-principal">Principal Amount (₹)</Label>
-          <Input id="fd-principal" type="text" placeholder="Enter principal" value={principal} onChange={(e) => setPrincipal(e.target.value)} />
+          <Input id="fd-principal" type="text" placeholder="Enter principal" value={principal} onChange={(e) => setPrincipal(filterNumericInput(e.target.value))} />
         </div>
         <div className="space-y-2">
           <Label htmlFor="fd-rate">Interest Rate (% p.a.)</Label>
-          <Input id="fd-rate" type="text" placeholder="Enter interest rate" value={rate} onChange={(e) => setRate(e.target.value)} />
+          <Input id="fd-rate" type="text" placeholder="Enter interest rate" value={rate} onChange={(e) => setRate(filterNumericInput(e.target.value))} />
         </div>
         <div className="space-y-2">
           <Label htmlFor="fd-tenure">Tenure (Years)</Label>
-          <Input id="fd-tenure" type="text" placeholder="Enter tenure" value={tenure} onChange={(e) => setTenure(e.target.value)} />
+          <Input id="fd-tenure" type="text" placeholder="Enter tenure" value={tenure} onChange={(e) => setTenure(filterNumericInput(e.target.value))} />
         </div>
         <div className="space-y-2">
           <Label>Compounding Frequency</Label>

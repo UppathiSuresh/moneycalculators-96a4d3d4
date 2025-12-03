@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { TrendingUp, RotateCcw, Download, Share2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { filterNumericInput } from "@/lib/inputValidation";
 import jsPDF from "jspdf";
 
 const CompoundInterestCalculator = () => {
@@ -125,7 +126,7 @@ const CompoundInterestCalculator = () => {
             type="text"
             placeholder="Enter principal amount"
             value={principal}
-            onChange={(e) => setPrincipal(e.target.value)}
+            onChange={(e) => setPrincipal(filterNumericInput(e.target.value))}
           />
         </div>
 
@@ -136,7 +137,7 @@ const CompoundInterestCalculator = () => {
             type="text"
             placeholder="Enter interest rate"
             value={rate}
-            onChange={(e) => setRate(e.target.value)}
+            onChange={(e) => setRate(filterNumericInput(e.target.value))}
           />
         </div>
 
@@ -147,7 +148,7 @@ const CompoundInterestCalculator = () => {
             type="text"
             placeholder="Enter time in years"
             value={time}
-            onChange={(e) => setTime(e.target.value)}
+            onChange={(e) => setTime(filterNumericInput(e.target.value))}
           />
         </div>
 

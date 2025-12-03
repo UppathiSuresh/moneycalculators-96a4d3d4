@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { TrendingUp, RotateCcw, Download, Share2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { filterNumericInput } from "@/lib/inputValidation";
 import jsPDF from "jspdf";
 
 const SIPCalculator = () => {
@@ -83,15 +84,15 @@ const SIPCalculator = () => {
       <CardContent className="space-y-4">
         <div className="space-y-2">
           <Label htmlFor="sip-monthly">Monthly Investment (₹)</Label>
-          <Input id="sip-monthly" type="text" placeholder="Enter monthly amount" value={monthlyInvestment} onChange={(e) => setMonthlyInvestment(e.target.value)} />
+          <Input id="sip-monthly" type="text" placeholder="Enter monthly amount" value={monthlyInvestment} onChange={(e) => setMonthlyInvestment(filterNumericInput(e.target.value))} />
         </div>
         <div className="space-y-2">
           <Label htmlFor="sip-return">Expected Return (% p.a.)</Label>
-          <Input id="sip-return" type="text" placeholder="Enter expected return" value={expectedReturn} onChange={(e) => setExpectedReturn(e.target.value)} />
+          <Input id="sip-return" type="text" placeholder="Enter expected return" value={expectedReturn} onChange={(e) => setExpectedReturn(filterNumericInput(e.target.value))} />
         </div>
         <div className="space-y-2">
           <Label htmlFor="sip-period">Time Period (Years)</Label>
-          <Input id="sip-period" type="text" placeholder="Enter time period" value={timePeriod} onChange={(e) => setTimePeriod(e.target.value)} />
+          <Input id="sip-period" type="text" placeholder="Enter time period" value={timePeriod} onChange={(e) => setTimePeriod(filterNumericInput(e.target.value))} />
         </div>
         {maturityAmount && (
           <div className="mt-4 p-4 bg-primary/10 rounded-lg space-y-2">

@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { TrendingUp, RotateCcw, Download, Share2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { filterNumericInput } from "@/lib/inputValidation";
 import jsPDF from "jspdf";
 
 const SalaryHikeCalculator = () => {
@@ -132,7 +133,7 @@ const SalaryHikeCalculator = () => {
               type="text"
               placeholder="Enter current salary"
               value={currentSalary}
-              onChange={(e) => setCurrentSalary(e.target.value)}
+              onChange={(e) => setCurrentSalary(filterNumericInput(e.target.value))}
               className="shadow-[var(--shadow-input)]"
             />
           </div>
@@ -163,7 +164,7 @@ const SalaryHikeCalculator = () => {
                 type="text"
                 placeholder="Enter hike percentage"
                 value={hikePercentage}
-                onChange={(e) => setHikePercentage(e.target.value)}
+                onChange={(e) => setHikePercentage(filterNumericInput(e.target.value))}
                 className="shadow-[var(--shadow-input)]"
               />
             </div>
@@ -175,7 +176,7 @@ const SalaryHikeCalculator = () => {
                 type="text"
                 placeholder="Enter new salary"
                 value={newSalary}
-                onChange={(e) => setNewSalary(e.target.value)}
+                onChange={(e) => setNewSalary(filterNumericInput(e.target.value))}
                 className="shadow-[var(--shadow-input)]"
               />
             </div>
