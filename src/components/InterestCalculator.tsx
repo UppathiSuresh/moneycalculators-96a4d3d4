@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Percent, RotateCcw, Download, Share2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { filterNumericInput } from "@/lib/inputValidation";
 import jsPDF from "jspdf";
 
 const InterestCalculator = () => {
@@ -108,7 +109,7 @@ const InterestCalculator = () => {
               type="text"
               placeholder="Enter principal amount"
               value={principal}
-              onChange={(e) => setPrincipal(e.target.value)}
+              onChange={(e) => setPrincipal(filterNumericInput(e.target.value))}
               className="shadow-[var(--shadow-input)]"
             />
           </div>
@@ -119,7 +120,7 @@ const InterestCalculator = () => {
               type="text"
               placeholder="Enter interest rate"
               value={rate}
-              onChange={(e) => setRate(e.target.value)}
+              onChange={(e) => setRate(filterNumericInput(e.target.value))}
               className="shadow-[var(--shadow-input)]"
             />
           </div>
@@ -130,7 +131,7 @@ const InterestCalculator = () => {
               type="text"
               placeholder="Enter time in years"
               value={time}
-              onChange={(e) => setTime(e.target.value)}
+              onChange={(e) => setTime(filterNumericInput(e.target.value))}
               className="shadow-[var(--shadow-input)]"
             />
           </div>

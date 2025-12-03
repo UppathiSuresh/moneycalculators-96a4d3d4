@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { PiggyBank, RotateCcw, Download, Share2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { filterNumericInput } from "@/lib/inputValidation";
 import jsPDF from "jspdf";
 
 const RDCalculator = () => {
@@ -90,15 +91,15 @@ const RDCalculator = () => {
       <CardContent className="space-y-4">
         <div className="space-y-2">
           <Label htmlFor="rd-monthly">Monthly Deposit (₹)</Label>
-          <Input id="rd-monthly" type="text" placeholder="Enter monthly deposit" value={monthlyDeposit} onChange={(e) => setMonthlyDeposit(e.target.value)} />
+          <Input id="rd-monthly" type="text" placeholder="Enter monthly deposit" value={monthlyDeposit} onChange={(e) => setMonthlyDeposit(filterNumericInput(e.target.value))} />
         </div>
         <div className="space-y-2">
           <Label htmlFor="rd-rate">Interest Rate (% p.a.)</Label>
-          <Input id="rd-rate" type="text" placeholder="Enter interest rate" value={rate} onChange={(e) => setRate(e.target.value)} />
+          <Input id="rd-rate" type="text" placeholder="Enter interest rate" value={rate} onChange={(e) => setRate(filterNumericInput(e.target.value))} />
         </div>
         <div className="space-y-2">
           <Label htmlFor="rd-tenure">Tenure (Years)</Label>
-          <Input id="rd-tenure" type="text" placeholder="Enter tenure" value={tenure} onChange={(e) => setTenure(e.target.value)} />
+          <Input id="rd-tenure" type="text" placeholder="Enter tenure" value={tenure} onChange={(e) => setTenure(filterNumericInput(e.target.value))} />
         </div>
         {maturityAmount && (
           <div className="mt-4 p-4 bg-primary/10 rounded-lg space-y-2">

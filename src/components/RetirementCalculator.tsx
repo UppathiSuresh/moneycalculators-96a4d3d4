@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { PiggyBank, RotateCcw, Download, Share2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { filterNumericInput } from "@/lib/inputValidation";
 import jsPDF from "jspdf";
 
 const RetirementCalculator = () => {
@@ -127,7 +128,7 @@ const RetirementCalculator = () => {
               type="text"
               placeholder="Years"
               value={currentAge}
-              onChange={(e) => setCurrentAge(e.target.value)}
+              onChange={(e) => setCurrentAge(filterNumericInput(e.target.value))}
             />
           </div>
 
@@ -138,7 +139,7 @@ const RetirementCalculator = () => {
               type="text"
               placeholder="Years"
               value={retirementAge}
-              onChange={(e) => setRetirementAge(e.target.value)}
+              onChange={(e) => setRetirementAge(filterNumericInput(e.target.value))}
             />
           </div>
         </div>
@@ -150,7 +151,7 @@ const RetirementCalculator = () => {
             type="text"
             placeholder="Enter current savings"
             value={currentSavings}
-            onChange={(e) => setCurrentSavings(e.target.value)}
+            onChange={(e) => setCurrentSavings(filterNumericInput(e.target.value))}
           />
         </div>
 
@@ -161,7 +162,7 @@ const RetirementCalculator = () => {
             type="text"
             placeholder="Enter monthly contribution"
             value={monthlySavings}
-            onChange={(e) => setMonthlySavings(e.target.value)}
+            onChange={(e) => setMonthlySavings(filterNumericInput(e.target.value))}
           />
         </div>
 
@@ -172,7 +173,7 @@ const RetirementCalculator = () => {
             type="text"
             placeholder="Enter expected return"
             value={expectedReturn}
-            onChange={(e) => setExpectedReturn(e.target.value)}
+            onChange={(e) => setExpectedReturn(filterNumericInput(e.target.value))}
           />
         </div>
 

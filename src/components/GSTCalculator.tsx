@@ -8,6 +8,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Receipt, RotateCcw, Download, Share2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { filterNumericInput } from "@/lib/inputValidation";
 import jsPDF from "jspdf";
 
 const GSTCalculator = () => {
@@ -106,7 +107,7 @@ const GSTCalculator = () => {
         </div>
         <div className="space-y-2">
           <Label htmlFor="gst-amount">Amount (₹)</Label>
-          <Input id="gst-amount" type="text" placeholder={calcType === "exclusive" ? "Enter amount (excl. GST)" : "Enter amount (incl. GST)"} value={amount} onChange={(e) => setAmount(e.target.value)} />
+          <Input id="gst-amount" type="text" placeholder={calcType === "exclusive" ? "Enter amount (excl. GST)" : "Enter amount (incl. GST)"} value={amount} onChange={(e) => setAmount(filterNumericInput(e.target.value))} />
         </div>
         <div className="space-y-2">
           <Label>GST Rate</Label>

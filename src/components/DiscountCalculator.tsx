@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Tag, RotateCcw, Download, Share2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { filterNumericInput } from "@/lib/inputValidation";
 import jsPDF from "jspdf";
 
 const DiscountCalculator = () => {
@@ -105,7 +106,7 @@ const DiscountCalculator = () => {
               type="text"
               placeholder="Enter original price"
               value={originalPrice}
-              onChange={(e) => setOriginalPrice(e.target.value)}
+              onChange={(e) => setOriginalPrice(filterNumericInput(e.target.value))}
               className="shadow-[var(--shadow-input)]"
             />
           </div>
@@ -116,7 +117,7 @@ const DiscountCalculator = () => {
               type="text"
               placeholder="Enter discount percentage"
               value={discountPercent}
-              onChange={(e) => setDiscountPercent(e.target.value)}
+              onChange={(e) => setDiscountPercent(filterNumericInput(e.target.value))}
               min="0"
               max="100"
               className="shadow-[var(--shadow-input)]"

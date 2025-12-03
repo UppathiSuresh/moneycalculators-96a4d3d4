@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Calculator, RotateCcw, Download, Share2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { filterNumericInput } from "@/lib/inputValidation";
 import jsPDF from "jspdf";
 
 const EMICalculator = () => {
@@ -119,7 +120,7 @@ const EMICalculator = () => {
             type="text"
             placeholder="Enter loan amount"
             value={principal}
-            onChange={(e) => setPrincipal(e.target.value)}
+            onChange={(e) => setPrincipal(filterNumericInput(e.target.value))}
           />
         </div>
 
@@ -130,7 +131,7 @@ const EMICalculator = () => {
             type="text"
             placeholder="Enter interest rate"
             value={rate}
-            onChange={(e) => setRate(e.target.value)}
+            onChange={(e) => setRate(filterNumericInput(e.target.value))}
           />
         </div>
 
@@ -141,7 +142,7 @@ const EMICalculator = () => {
             type="text"
             placeholder="Enter tenure in years"
             value={tenure}
-            onChange={(e) => setTenure(e.target.value)}
+            onChange={(e) => setTenure(filterNumericInput(e.target.value))}
           />
         </div>
 
