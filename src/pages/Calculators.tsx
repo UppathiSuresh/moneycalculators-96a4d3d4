@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Calculator, TrendingUp, Percent, DollarSign, PiggyBank, Building2 } from "lucide-react";
+import { Helmet } from "react-helmet-async";
 
 const calculators = [
   {
@@ -52,6 +53,13 @@ const calculators = [
 
 const Calculators = () => {
   return (
+    <>
+      <Helmet>
+        <title>All Financial Calculators - EMI, SIP, FD, Tax Calculator India</title>
+        <meta name="description" content="Browse all free financial calculators - EMI calculator, SIP calculator, FD calculator, RD calculator, income tax calculator, GST calculator, and more." />
+        <link rel="canonical" href="https://financial-calculators.lovable.app/calculators" />
+      </Helmet>
+      
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
       <Navigation />
       
@@ -106,6 +114,7 @@ const Calculators = () => {
 
       <Footer />
     </div>
+    </>
   );
 };
 
