@@ -10,7 +10,8 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { Mail, MessageSquare, Send, MapPin, Phone } from "lucide-react";
+import { Mail, MessageSquare, Send, MapPin } from "lucide-react";
+import { Helmet } from "react-helmet-async";
 
 const contactSchema = z.object({
   name: z
@@ -98,6 +99,13 @@ const Contact = () => {
   ];
 
   return (
+    <>
+      <Helmet>
+        <title>Contact Us - Financial Calculators Support & Feedback</title>
+        <meta name="description" content="Get in touch with Financial Calculators team. Send feedback, suggestions, or report issues. We respond within 24 hours." />
+        <link rel="canonical" href="https://financial-calculators.lovable.app/contact" />
+      </Helmet>
+      
     <div className="min-h-screen bg-[image:var(--gradient-bg)] flex flex-col">
       <Navigation />
 
@@ -261,6 +269,7 @@ const Contact = () => {
 
       <Footer />
     </div>
+    </>
   );
 };
 

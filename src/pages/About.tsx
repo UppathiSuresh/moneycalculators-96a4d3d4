@@ -2,6 +2,7 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Calculator, TrendingUp, Shield, Zap, Users, Heart } from "lucide-react";
+import { Helmet } from "react-helmet-async";
 
 const About = () => {
   const features = [
@@ -65,6 +66,13 @@ const About = () => {
   ];
 
   return (
+    <>
+      <Helmet>
+        <title>About Us - Free Financial Calculators India | EMI, SIP, Tax Tools</title>
+        <meta name="description" content="Learn about Financial Calculators - your trusted source for free EMI, SIP, FD, income tax calculators in India. Privacy-focused, accurate, and easy to use." />
+        <link rel="canonical" href="https://financial-calculators.lovable.app/about" />
+      </Helmet>
+      
     <div className="min-h-screen bg-[image:var(--gradient-bg)] flex flex-col">
       <Navigation />
       
@@ -244,6 +252,7 @@ const About = () => {
 
       <Footer />
     </div>
+    </>
   );
 };
 
