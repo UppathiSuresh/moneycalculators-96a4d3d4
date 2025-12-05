@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -8,6 +8,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Scale, RotateCcw, Download, Share2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { filterNumericInput } from "@/lib/inputValidation";
+import { trackCalculatorUsage } from "@/lib/analytics";
 import jsPDF from "jspdf";
 
 const IncomeTaxCalculator = () => {
@@ -76,7 +77,18 @@ const IncomeTaxCalculator = () => {
     }
   }, [income, ageGroup, deductions]);
 
+  const hasTracked = useRef(false);
+  useEffect(() => {
+    if (oldRegimeTax !== null && !hasTracked.current) {
+      trackCalculatorUsage('Income Tax', 'calculate');
+      hasTracked.current = true;
+    } else if (oldRegimeTax === null) {
+      hasTracked.current = false;
+    }
+  }, [oldRegimeTax]);
+
   const handleReset = () => {
+    trackCalculatorUsage('Income Tax', 'reset');
     setIncome("");
     setAgeGroup("below60");
     setDeductions("");
@@ -91,6 +103,7 @@ const IncomeTaxCalculator = () => {
 
   const handleDownloadPDF = () => {
     if (oldRegimeTax === null) return;
+    trackCalculatorUsage('Income Tax', 'download');
     const doc = new jsPDF();
     doc.setFontSize(20);
     doc.text("Income Tax Calculator Results", 20, 20);
