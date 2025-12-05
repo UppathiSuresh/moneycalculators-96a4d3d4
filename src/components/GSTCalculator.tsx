@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -9,6 +9,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Receipt, RotateCcw, Download, Share2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { filterNumericInput } from "@/lib/inputValidation";
+import { trackCalculatorUsage } from "@/lib/analytics";
 import jsPDF from "jspdf";
 
 const GSTCalculator = () => {
@@ -46,7 +47,18 @@ const GSTCalculator = () => {
     }
   }, [amount, gstRate, calcType]);
 
+  const hasTracked = useRef(false);
+  useEffect(() => {
+    if (gstAmount !== null && !hasTracked.current) {
+      trackCalculatorUsage('GST', 'calculate');
+      hasTracked.current = true;
+    } else if (gstAmount === null) {
+      hasTracked.current = false;
+    }
+  }, [gstAmount]);
+
   const handleReset = () => {
+    trackCalculatorUsage('GST', 'reset');
     setAmount("");
     setGstRate("18");
     setCalcType("exclusive");
@@ -54,6 +66,7 @@ const GSTCalculator = () => {
 
   const handleDownloadPDF = () => {
     if (!gstAmount) return;
+    trackCalculatorUsage('GST', 'download');
     const doc = new jsPDF();
     doc.setFontSize(20);
     doc.text("GST Calculator Results", 20, 20);

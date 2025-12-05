@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -7,6 +7,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { PiggyBank, RotateCcw, Download, Share2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { filterNumericInput } from "@/lib/inputValidation";
+import { trackCalculatorUsage } from "@/lib/analytics";
 import jsPDF from "jspdf";
 
 const RetirementCalculator = () => {
@@ -47,7 +48,18 @@ const RetirementCalculator = () => {
     }
   }, [currentAge, retirementAge, currentSavings, monthlySavings, expectedReturn]);
 
+  const hasTracked = useRef(false);
+  useEffect(() => {
+    if (retirementCorpus !== null && !hasTracked.current) {
+      trackCalculatorUsage('Retirement', 'calculate');
+      hasTracked.current = true;
+    } else if (retirementCorpus === null) {
+      hasTracked.current = false;
+    }
+  }, [retirementCorpus]);
+
   const handleReset = () => {
+    trackCalculatorUsage('Retirement', 'reset');
     setCurrentAge("");
     setRetirementAge("");
     setCurrentSavings("");
@@ -57,6 +69,7 @@ const RetirementCalculator = () => {
 
   const handleDownloadPDF = () => {
     if (retirementCorpus === null) return;
+    trackCalculatorUsage('Retirement', 'download');
 
     const doc = new jsPDF();
     

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -8,6 +8,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { TrendingUp, RotateCcw, Download, Share2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { filterNumericInput } from "@/lib/inputValidation";
+import { trackCalculatorUsage } from "@/lib/analytics";
 import jsPDF from "jspdf";
 
 const CompoundInterestCalculator = () => {
@@ -38,7 +39,18 @@ const CompoundInterestCalculator = () => {
     }
   }, [principal, rate, time, frequency]);
 
+  const hasTracked = useRef(false);
+  useEffect(() => {
+    if (futureValue !== null && !hasTracked.current) {
+      trackCalculatorUsage('Compound Interest', 'calculate');
+      hasTracked.current = true;
+    } else if (futureValue === null) {
+      hasTracked.current = false;
+    }
+  }, [futureValue]);
+
   const handleReset = () => {
+    trackCalculatorUsage('Compound Interest', 'reset');
     setPrincipal("");
     setRate("");
     setTime("");
@@ -58,6 +70,7 @@ const CompoundInterestCalculator = () => {
 
   const handleDownloadPDF = () => {
     if (futureValue === null) return;
+    trackCalculatorUsage('Compound Interest', 'download');
 
     const doc = new jsPDF();
     

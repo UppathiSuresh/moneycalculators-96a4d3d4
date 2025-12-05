@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -7,6 +7,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { TrendingUp, RotateCcw, Download, Share2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { filterNumericInput } from "@/lib/inputValidation";
+import { trackCalculatorUsage } from "@/lib/analytics";
 import jsPDF from "jspdf";
 
 const SIPCalculator = () => {
@@ -36,7 +37,18 @@ const SIPCalculator = () => {
     }
   }, [monthlyInvestment, expectedReturn, timePeriod]);
 
+  const hasTracked = useRef(false);
+  useEffect(() => {
+    if (maturityAmount !== null && !hasTracked.current) {
+      trackCalculatorUsage('SIP', 'calculate');
+      hasTracked.current = true;
+    } else if (maturityAmount === null) {
+      hasTracked.current = false;
+    }
+  }, [maturityAmount]);
+
   const handleReset = () => {
+    trackCalculatorUsage('SIP', 'reset');
     setMonthlyInvestment("");
     setExpectedReturn("");
     setTimePeriod("");
@@ -44,6 +56,7 @@ const SIPCalculator = () => {
 
   const handleDownloadPDF = () => {
     if (!maturityAmount) return;
+    trackCalculatorUsage('SIP', 'download');
     const doc = new jsPDF();
     doc.setFontSize(20);
     doc.text("SIP Calculator Results", 20, 20);

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -7,6 +7,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Calculator, RotateCcw, Download, Share2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { filterNumericInput } from "@/lib/inputValidation";
+import { trackCalculatorUsage } from "@/lib/analytics";
 import jsPDF from "jspdf";
 
 const EMICalculator = () => {
@@ -46,7 +47,18 @@ const EMICalculator = () => {
     }
   }, [principal, rate, tenure]);
 
+  const hasTracked = useRef(false);
+  useEffect(() => {
+    if (emi !== null && !hasTracked.current) {
+      trackCalculatorUsage('EMI', 'calculate');
+      hasTracked.current = true;
+    } else if (emi === null) {
+      hasTracked.current = false;
+    }
+  }, [emi]);
+
   const handleReset = () => {
+    trackCalculatorUsage('EMI', 'reset');
     setPrincipal("");
     setRate("");
     setTenure("");
@@ -54,6 +66,7 @@ const EMICalculator = () => {
 
   const handleDownloadPDF = () => {
     if (emi === null) return;
+    trackCalculatorUsage('EMI', 'download');
 
     const doc = new jsPDF();
     
